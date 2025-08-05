@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dashboard Desa Bonto Matinggi</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.2.0"></script>
+  <style>
+    body { margin: 0; font-family: Arial, sans-serif; background-color: #f4f4f4; }
+    header {
+      background-image: url('gambar-header.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      color: white;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      background-color: #1b5e20;
+      padding: 0.5rem;
+      flex-wrap: wrap;
+    }
+    nav a {
+      color: white; text-decoration: none; font-weight: bold;
+      padding: 0.5rem 1rem; border-radius: 4px;
+    }
+    nav a:hover { background-color: #43a047; }
+    section {
+      display: none;
+      padding: 1.5rem;
+      background: white;
+      margin: 1rem auto;
+      max-width: 1000px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    section.active { display: block; }
+    h2 { color: #2e7d32; }
+    .menu-grid, .galeri-grid {    
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .menu-item, .galeri-item {
+      width: 200px;
+      text-align: center;
+      background: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .menu-item img, .galeri-item img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+    }
+    .menu-item p, .galeri-item p {
+      margin: 0.5rem;
+      font-weight: bold;
+    }
+    canvas { max-width: 100%; margin-top: 1rem; }
+    footer {
+      text-align: center;
+      padding: 1rem;
+      background: #2e7d32;
+      color: white;
+    }
+   section p, section ul {
+  margin-bottom: 1rem;
+  line-height: 1.6;
+  text-align: justify;
+}
+
+section h2 {
+  margin-top: 2rem;
+  color: red;
+  border-bottom: 2px solid #c8e6c9;
+  padding-bottom: 0.3rem;
+}
+
+section {
+  padding: 2rem;
+  background: white;
+  margin: 2rem auto;
+  max-width: 800px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.08);
+}
+
+section ul {
+  padding-left: 1.2rem;
+}
+.header-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.logo-maros {
+  width: 80px;
+  height: auto;
+  border-radius: 8px; /* opsional, untuk sudut membulat */
+}
+
+.header-text {
+  text-align: center;
+}
+/* Tambahan untuk latar belakang halaman yang agak gelap tapi terlihat terang dan mengkilap */
+body {
+  background-color: #2c3e50; /* ganti dengan salah satu warna di atas */
+  color: #ffffff; /* agar teks terang di atas latar gelap */
+}
+
+/* Perbarui tampilan section agar tetap kontras dan modern */
+section {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: #f1f1f1;
+  box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Menu dan galeri diberi nuansa yang sama */
+.menu-item, .galeri-item {
+  background: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: #f1f1f1;
+}
+/* 1. Semua teks paragraf dan label yang warnanya terlalu pucat */
+p, span, label, small, .chart-label, .bar-label {
+  color: #f0f0f0 !important;  /* Ubah ke putih muda agar kontras */
+}
+
+/* 2. Jika kamu pakai Chart.js, perjelas font warna chart axis dan tooltip */
+canvas {
+  color: #ffffff !important;
+}
+
+.chartjs-render-monitor {
+  color: #ffffff !important;
+}
+
+.chart-tooltip {
+  color: #ffffff !important;
+  background-color: rgba(0, 0, 0, 0.7) !important;
+  border-radius: 4px;
+  padding: 4px 8px;
+}
+
+/* 3. Untuk semua teks bar chart (jika SVG atau elemen lain) */
+text {
+  fill: #f0f0f0 !important;
+}
+
+/* 4. Untuk heading kecil atau deskripsi */
+h4, h5, h6, .desc, .info-text {
+  color: #e0e0e0 !important;
+}
+body {
+  background-color: #0d1b2a; /* deep blue background */
+  color: #f0f0f0;
+}
+
+header,
+nav,
+footer {
+  background-color: #1a252f; /* dark navy blue elegan */
+  color: #ffffff;
+}
+
+nav a {
+  color: #ffffff;
+}
+
+nav a:hover {
+  background-color: #324a5f; /* glossy effect on hover */
+  color: #ffffff;
+}
+
+button,
+.btn,
+input[type="submit"] {
+  background-color: #1f3b57; /* dark blue button */
+  color: #ffffff;
+  border: none;
+}
+
+button:hover,
+.btn:hover,
+input[type="submit"]:hover {
+  background-color: #2f4f6f; /* glossy blue hover */
+}
+
+.bar-label, .chart-label, .caption, .label {
+  color: #f8f9fa; /* untuk label di grafik/bar agar lebih jelas */
+}
+
+
+  </style>
+</head>
+<body>
+<header>
+  <div class="header-content">
+    <img src="images.png" alt="Logo Kabupaten Maros" class="logo-maros" />
+    <div class="header-text">
+      <h1>Dashboard Desa Bonto Matinggi</h1>
+      <p>Kecamatan Tompobulu, Kabupaten Maros</p>
+    </div>
+  </div>
+</header>
+
+<nav>
+  <a href="#" onclick="showSection('beranda')">Beranda</a>
+  <a href="#" onclick="showSection('profil')">Profil</a>
+  <a href="#" onclick="showSection('struktur')">Struktur</a>
+  <a href="#" onclick="showSection('demografi')">Demografi</a>
+  <a href="#" onclick="showSection('sosial')">Sosial Ekonomi</a>
+  <a href="#" onclick="showSection('sarana')">Sarana</a>
+  <a href="#" onclick="showSection('peta')">Peta</a>
+
+</nav>
+
+<section id="beranda" class="active">
+  <h2>Selamat Datang di Dashboard Desa Bonto Matinggi</h2>
+  <p>Berikut beberapa informasi penting terkait profil dan data desa.</p>
+
+  <div class="menu-grid">
+    <div class="menu-item" onclick="showSection('profil')">
+      <img src="gambar-profil.jpg" alt="Profil Desa"/>
+      <p>Profil Desa</p>
+    </div>
+    <div class="menu-item" onclick="showSection('struktur')">
+    <img src="gambar-struktur.jpg" alt="Struktur" />
+    <p>Struktur</p>
+    </div>
+    <div class="menu-item" onclick="showSection('demografi')">
+      <img src="gambar-demografi.jpg" alt="Demografi"/>
+      <p>Demografi</p>
+    </div>
+    <div class="menu-item" onclick="showSection('sosial')">
+      <img src="gambar-sosial.jpg" alt="Sosial Ekonomi"/>
+      <p>Sosial Ekonomi</p>
+    </div>
+    <div class="menu-item" onclick="showSection('geografis')">
+      <img src="gambar-geografis.jpg" alt="Sarana"/>
+      <p>Sarana</p>
+    </div>
+    <div class="menu-item" onclick="showSection('peta')">
+    <img src="gambar-peta.jpg" alt="Peta Desa"/>
+    <p>Peta</p>
+    </div>
+    
+  </div>
+
+  </section>
+
+<section id="profil">
+  <h2>Visi & Misi</h2>
+  <p><strong>Visi:</strong>TENTRAM – MAJU – MAKMUR<p>
+  </p>
+   <ul>
+  <p><strong>Misi:</strong><p>
+    <li>Pembangunan infrastruktur</li>
+    <li>Meningkatkan kualitas sumber daya manusia</li>
+    <li>Meningkatkan produktivitas perekonomian</li>
+    <li>Penciptaan keamanan dan ketentraman</li>
+    <li>Optimalisasi kelembagaan</li>
+  </ul>
+  <h2>Sejarah</h2>
+  <p>Pada awalnya wilayah Bonto Matinggi adalah Wilayah Desa Bonto Manai Kecamatan 
+Tanralili, pada tahun 1994 Desa Bonto Manai mendapatkan pembangunan Transmigrasi Lokal 
+dimana warganya adalah 50% dari luar Desa dan 50% merupakan warga Desa Bonto Manai itu 
+sendiri yang merupakan warga binaan Departemen Trasmigrasi dan dipimpin oleh Kepala Unit 
+Pemukiman Trasmigrasi (UPT) dan beberapa staf Kantor Trasmigrasi Provinsi Sulawesi 
+Selatan. 
+Pada Tahun 1997 Kecamatan Tanralili dimekarkan menjadi 2 (dua) kecamatan yaitu, 
+Kecamatan Tanralili dan Kecamatan Persiapan Tompobulu, setelah dibina beberapa tahun dan dianggap perlu untuk mandiri tepatnya pada tahun 1999 Desa Bonto Manai dimekarkan 
+menjadi 2 (dua) desa yaitu, Desa Bonto Manai dan Desa Bonto Matinggi oleh Gubernur 
+Propinsi Sulawesi Selatan. Hasil pemekaran kecamatan dan desa tersebut memposisikan Desa 
+Bonto Matinggi berada dalam Wilayah Kecamatan Tompobulu sampai dengan saat ini. 
+Desa Bonto Matinggi bila diartikan ke dalam bahasa Indonesia yaitu kata Bonto = 
+Daratan, Matinggi = Amat Tinggi, jadi Bonto Matinggi mengandung arti Daratan yang Amat 
+Tinggi. Dimana Desa Bonto Matinggi ditegakkan dan terdapat 4 (empat) wilayah dusun yang 
+terhimpun menjadi satu (1) desa yang harus di majukan dengan semangat persatuan dan 
+kekeluargaan menuju keadilan dan kesejahteraan.<p>
+  <h2>Letak Geografis</h2>
+  <p>Desa Bonto Matinggi secara administratif berada dibawah pemerintahan Kecamatan 
+Tompobulu Kabupaten Maros Provinsi Sulawesi Selatan. Luas wilayah Desa Bontomatinggi ± 
+2.572 Ha terdiri sekitar tujuh puluh persen (60%) dataran, sekitar 25% perbukitan dan wilayah 
+pegunungan kars atau gunung batu sekitar 15%.</p>
+  <ul>
+  <p><strong style="color: blue;">Batas Wilayah Desa Bonto Matinggi</strong><p>
+  <li>Sebelah Utara : Desa Bonto Manai / Sungai Maros </li>
+  <li>Sebelah Timur : Desa Bonto Somba </li>
+  <li>Sebelah Selatan : Desa Bonto Manurung </li>
+  <li>Sebelah Barat : Desa Bonto Manai </li>
+  <ul>
+  <p>Desa Bonto Matinggi terdiri dari 4 Dusun yaitu Dusun Damma,Dusun Pattenea,Dusun 
+Gantarang dan Dusun Katoang. Terdapat tiga belas Rukun Tetangga (13 RT) dengan 
+jumlah penduduk Tahun 2025 sebanyak 1.560 jiwa. 
+Masyarakat desa Bonto Matinggi masih merupakan satu rumpun atau satu kekerabatan 
+sehingga masih terlihat keharmonisan dan sifat kegotong-royongan. Keyakinan atau agama serta 
+tradisi pun masih seragam. Bahasa suku yang digunakan terdiri dari bahasa Makassar dan bahasa 
+Bugis. 
+Sesuai dengan kondisi alam maka pekerjaan masyarakat lebih dominan sebagai petani 
+dan pekebun serta peternak, sebahagian kecil lainnya sebagai wirausahawan, pedangang, PNS, 
+Polri dan TNI. 
+Dengan dipimpin oleh Kepala Desa masyarakat Bonto Matinggi terus berbenah dalam 
+upaya terus membangun untuk mencapai Desa yang tentram, maju, dan makmur berkeadilan 
+untuk sejahtera yang bertumpu pada pembangunan secara menyeluruh.<p>
+  
+</section>
+
+<section id="demografi">
+  <h2>Demografi</h2>
+  <h3>Penduduk berdasarkan Gender</h3>
+  <p>Total Penduduk: 1.560 jiwa (L: 764, P: 796)</p>
+  <canvas id="genderChart"></canvas>
+  <canvas id="ageChart"></canvas>
+  <h3>Jumlah Penduduk per Dusun</h3>
+  <canvas id="pendudukDusunChart"></canvas>
+
+  <h3>Jumlah Kepala Keluarga per Dusun</h3>
+  <canvas id="kkDusunChart"></canvas>
+
+  <h3>Gender per Dusun</h3>
+  <canvas id="genderDusunChart"></canvas>
+
+
+</section>
+
+<section id="sosial">
+  <h2>Sosial Ekonomi</h2>
+    <h3>Pekerjaan / Mata Pencaharian</h3>
+  <canvas id="jobDetailChart"></canvas>
+
+  <h3 style="margin-top:2rem;">Mata Pencaharian (dalam %)</h3>
+  <canvas id="jobPercentChart"></canvas>
+
+  <h3 style="margin-top:2rem;">Tingkat Pendidikan</h3>
+  <canvas id="pendidikanLengkapChart"></canvas>
+
+  <h3>Grafik Tingkat Kesejahteraan</h3>
+  <p>Sumber : Dari Data penerima manfaat bantuan Dinsos 2022<p>
+  <canvas id="grafikKesejahteraan"></canvas>
+
+  <h3>Grafik Jumlah Penerima Bantuan Sosial</h3>
+  <canvas id="grafikBantuanSosial"></canvas>
+</section>
+
+<section id="geografis">
+  <h2>Letak Geografis</h2>
+  <p>Desa Bonto Matinggi berada di Kecamatan Tompobulu, Maros, Sulsel. Luas 2.572 Ha terdiri dari dataran (60%), perbukitan (25%), dan pegunungan kars (15%).</p>
+  <p>Batas wilayah: Utara (Bonto Manai), Timur (Bonto Somba), Selatan (Bonto Manurung), Barat (Bonto Manai).</p>
+</section>
+
+<section id="sarana">
+  <h2>Sarana dan Prasarana</h2>
+  <h3>Prasarana Umum</h3>
+  <canvas id="umumChart"></canvas>
+
+  <h3>Prasarana Pendidikan</h3>
+  <canvas id="pendidikanChart"></canvas>
+
+  <h3>Prasarana Ibadah</h3>
+  <canvas id="ibadahChart"></canvas>
+
+  <h3>Prasarana Kesehatan</h3>
+  <canvas id="kesehatanChart"></canvas>
+
+  <h3>Prasarana Transportasi</h3>
+  <canvas id="transportChart"></canvas>
+
+  <h3>Prasarana Air Bersih</h3>
+  <canvas id="airBersihChart"></canvas>
+
+  <h3>Prasarana Sanitasi dan Irigasi</h3>
+  <canvas id="sanitasiChart"></canvas>
+</section>
+
+<section id="peta">
+  <h2>Peta</h2>
+  <p>Klik untuk melihat desa Bonto Matinggi</p>
+
+  <iframe 
+    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31469.255625845468!2d119.73600681355069!3d-5.133087235577595!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dbeed6f8a5692df%3A0x2d35f660a73eb473!2sBonto%20Matinggi%2C%20Kec.%20Tompobulu%2C%20Kabupaten%20Maros%2C%20Sulawesi%20Selatan!5e1!3m2!1sid!2sid!4v1753958063644!5m2!1sid!2sid" 
+    width="100%" 
+    height="450" 
+    style="border:0;" 
+    allowfullscreen="" 
+    loading="lazy" 
+    referrerpolicy="no-referrer-when-downgrade">
+  </iframe>
+</section>
+
+<section id="struktur">
+  <h2>Struktur Pemerintah Desa</h2>
+  <p>Berikut ini adalah bagan struktur organisasi Pemerintah Desa Bonto Matinggi:</p>
+
+  <div style="text-align: center; margin-top: 2rem;">
+    <img src="struktur-desa.jpg" alt="Struktur Pemerintah Desa" 
+         style="max-width: 100%; height: auto; border-radius: 8px; box-shadow: 0 0 10px rgba(0,0,0,0.3);" />
+    <p style="margin-top: 1rem;">Klik tombol di bawah untuk mengunduh gambar.</p>
+    <a href="struktur-desa.jpg" download 
+       style="color: #ffffff; background-color: #1b5e20; padding: 0.5rem 1rem; text-decoration: none; border-radius: 6px; display: inline-block; margin-top: 1rem;">
+      Download Struktur Organisasi
+    </a>
+  </div>
+</section>
+<div style="text-align: center; padding: 2rem 1rem;">
+  <h3 style="color: white; font-weight: bold; margin-bottom: 1rem;">IKUTI KAMI</h3>
+  <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+    <a href="https://www.facebook.com/share/16xcdTg6TT/" target="_blank" title="Facebook">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/facebook.svg" alt="Facebook" width="30" height="30" style="filter: invert(1);" />
+    </a>
+    <a href="https://www.instagram.com/desa_bontomatinggi?igsh=anJzajd4NDRiM2hu" target="_blank" title="Instagram">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" width="30" height="30" style="filter: invert(1);" />
+    </a>
+    <a href="https://youtube.com/@desabontomatinggi710?si=vl8lP_Ssx3ex2PZD" target="_blank" title="YouTube">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/youtube.svg" alt="YouTube" width="30" height="30" style="filter: invert(1);" />
+    </a>
+    <a href="https://www.tiktok.com/@pemdes_bontomatinggi?_t=ZS-8yYNIOOknPc&_r=1" target="_blank" title="TikTok">
+      <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/tiktok.svg" alt="TikTok" width="30" height="30" style="filter: invert(1);" />
+    </a>
+  </div>
+</div>
+
+
+<footer>
+  <p>Dashboard Desa Bonto Matinggi</p>
+  <p>Powered by KKN-T UNHAS 114 @2025.All Rights Reserved</p>
+</footer>
+
+<script>
+  function showSection(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+   Chart.register(ChartDataLabels);
+  new Chart(document.getElementById('genderChart'), {
+    type: 'pie',
+    data: {
+      labels: ['Laki-laki', 'Perempuan'],
+      datasets: [{ data: [764, 796], backgroundColor: ['pink', 'orange'] }]
+    }
+  });
+
+  new Chart(document.getElementById('ageChart'), {
+    type: 'bar',
+    data: {
+      labels: ['0–15 Tahun', '15–56 Tahun', '>56 Tahun'],
+      datasets: [{ label: 'Jumlah Jiwa', data: [358, 1124, 78], backgroundColor: 'yellow' }]
+    },
+    options: { scales: { y: { beginAtZero: true } } }
+  });
+
+  // Grafik Jumlah Penduduk per Dusun
+new Chart(document.getElementById('pendudukDusunChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Damma', 'Patte’nea', 'Katoang', 'Gantarang'],
+    datasets: [{
+      label: 'Jumlah Penduduk',
+      data: [719, 295, 298, 248],
+      backgroundColor: 'blue'
+    }]
+  },
+  options: {
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+
+// Grafik Kepala Keluarga per Dusun
+new Chart(document.getElementById('kkDusunChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Damma', 'Patte’nea', 'Katoang', 'Gantarang'],
+    datasets: [{
+      label: 'Jumlah KK',
+      data: [230, 96, 94, 79],
+      backgroundColor: 'red'
+    }]
+  },
+  options: {
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+
+// Grafik Perbandingan Laki-laki & Perempuan per Dusun
+new Chart(document.getElementById('genderDusunChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Damma', 'Patte’nea', 'Katoang', 'Gantarang'],
+    datasets: [
+      {
+        label: 'Laki-laki',
+        data: [353, 138, 155, 118],
+        backgroundColor: '#42a5f5'
+      },
+      {
+        label: 'Perempuan',
+        data: [366, 157, 143, 130],
+        backgroundColor: '#ef5350'
+      }
+    ]
+  },
+  options: {
+    scales: {
+      y: { beginAtZero: true }
+    }
+  }
+});
+
+  function showSection(id) {
+    document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  Chart.register(ChartDataLabels); 
+  // Grafik Pekerjaan Lengkap
+  new Chart(document.getElementById('jobDetailChart'), {
+    type: 'bar',
+    data: {
+      labels: ['PNS', 'TNI/Polri', 'Karyawan Swasta', 'Wiraswasta', 'Petani', 'Buruh Tani', 'Peternak', 'Jasa', 'Pengrajin', 'Pensiunan', 'Lainnya'],
+      datasets: [{
+        label: 'Jumlah Orang',
+        data: [3, 2, 5, 450, 655, 5, 6, 3, 2, 2, 14],
+        backgroundColor: '#4db6ac'
+      }]
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          anchor: 'end',
+          align: 'end',
+          color: 'black',
+          font: {
+            weight: 'bold'
+          }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
+
+  // Grafik Pekerjaan dalam Persen
+  new Chart(document.getElementById('jobPercentChart'), {
+    type: 'pie',
+    data: {
+      labels: ['Petani', 'Peternak', 'Pedagang/Wiraswasta', 'Perindustrian', 'PNS', 'Karyawan', 'Pengrajin'],
+      datasets: [{
+        data: [54, 20, 5, 1, 5, 10, 5],
+        backgroundColor: ['#66bb6a', '#ffa726', '#42a5f5', '#ab47bc', '#ff7043', '#26c6da', '#8d6e63']
+      }]
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          formatter: (value, ctx) => value + '%',
+          color: '#000',
+          font: { weight: 'bold' }
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
+
+  // Grafik Pendidikan Lengkap
+  new Chart(document.getElementById('pendidikanLengkapChart'), {
+    type: 'bar',
+    data: {
+      labels: ['TK', 'SD', 'SMP', 'SMA', 'D1–D3', 'S1', 'S2', 'S3', 'Pesantren', 'Tidak Lulus', 'Tidak Sekolah'],
+      datasets: [{
+        label: 'Jumlah Orang',
+        data: [59, 330, 210, 250, 2, 16, 0, 0, 10, 200, 283],
+        backgroundColor: '#7986cb'
+      }]
+    },
+    options: {
+      plugins: {
+        datalabels: {
+          anchor: 'end',
+          align: 'end',
+          color: 'black',
+          font: { weight: 'bold' }
+        }
+      },
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    },
+    plugins: [ChartDataLabels]
+  });
+  new Chart(document.getElementById('grafikKesejahteraan'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Pra Sejahtera', 'Sejahtera'],  
+    datasets: [{
+      data: [350, 149], 
+      backgroundColor: ['#66bb6a', '#ffa726'], 
+      borderWidth: 1
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        position: 'bottom'
+      }
+    }
+  }
+});  
+
+new Chart(document.getElementById('grafikBantuanSosial'), {
+  type: 'radar',
+  data: {
+    labels: ['PKH', 'Rastra', 'KIS'],
+    datasets: [{
+      label: 'Jumlah Penerima',
+      data: [135, 205, 1225],
+      backgroundColor: 'rgba(255, 138, 101, 0.4)',
+      borderColor: '#ef6c00',
+      pointBackgroundColor: '#d84315'
+    }]
+  },
+  options: {
+    scales: {
+      r: {
+        beginAtZero: true
+      }
+    }
+  }
+});
+
+// Grafik Prasarana Umum (Donat Chart)
+new Chart(document.getElementById('umumChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Kantor Desa', 'Olahraga', 'Balai Pertemuan', 'Pasar Desa'],
+    datasets: [{
+      data: [1, 1, 1, 1],
+      backgroundColor: ['#42a5f5', '#ab47bc', '#26a69a', '#ff7043']
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        position: 'bottom'
+      },
+      tooltip: {
+        callbacks: {
+          label: function(context) {
+            return `${context.label}: ${context.parsed} buah`;
+          }
+        }
+      }
+    }
+  }
+});
+
+// Grafik Prasarana Pendidikan (Horizontal Bar Chart dengan warna berbeda)
+new Chart(document.getElementById('pendidikanChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Perpustakaan', 'PAUD', 'TK', 'SD', 'SMP', 'SMA', 'PT'],
+    datasets: [{
+      label: 'Jumlah Gedung',
+      data: [1, 1, 0, 1, 1, 0, 0],
+      backgroundColor: [
+        '#4db6ac',  // Perpustakaan
+        '#81c784',  // PAUD
+        '#e57373',  // TK
+        '#ba68c8',  // SD
+        '#64b5f6',  // SMP
+        '#ffd54f',  // SMA
+        '#a1887f'   // PT
+      ]
+    }]
+  },
+  options: {
+    indexAxis: 'y', // untuk membuat horizontal bar
+    plugins: {
+      legend: { display: false },
+      title: { display: false }
+    },
+    scales: {
+      x: { beginAtZero: true }
+    }
+  }
+});
+
+// Grafik Prasarana Ibadah (Doughnut Chart karena hanya 1 data terisi)
+new Chart(document.getElementById('ibadahChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Masjid'],
+    datasets: [{
+      data: [7],
+      backgroundColor: ['#66bb6a']
+    }]
+  },
+  options: {
+    plugins: {
+      legend: {
+        position: 'bottom'
+      },
+      title: {
+        display: false
+      }
+    }
+  }
+});
+
+// Grafik Prasarana Kesehatan (Horizontal Bar)
+new Chart(document.getElementById('kesehatanChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Puskesmas', 'Pustu', 'Poskesdes', 'Posyandu dan Polindes'],
+    datasets: [{
+      label: 'Jumlah',
+      data: [0, 0, 0, 4],
+      backgroundColor: ['#e57373', '#f06292', '#ba68c8', '#4db6ac']
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: {
+      title: {
+        display: true,
+        text: 'Prasarana Kesehatan'
+      },
+      legend: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: { stepSize: 1 }
+      }
+    }
+  }
+});
+
+// Grafik Prasarana Transportasi (Horizontal Bar)
+new Chart(document.getElementById('transportChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Jalan Desa', 'Jalan Kab', 'Jalan Prov', 'Jalan Nasional', 'Jembatan'],
+    datasets: [{
+      label: 'Panjang (Km) / Jumlah',
+      data: [9, 45, 105, 0, 1],
+      backgroundColor: ['#ffb74d', '#4fc3f7', '#9575cd', '#f44336', '#81c784']
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: {
+      title: {
+        display: true,
+        text: 'Prasarana Transportasi'
+      },
+      legend: {
+        display: false
+      }
+    },
+    scales: {
+      x: {
+        beginAtZero: true,
+        ticks: { stepSize: 10 }
+      }
+    }
+  }
+});
+
+new Chart(document.getElementById('airBersihChart'), {
+  type: 'bar',
+  data: {
+    labels: ['Tangki Air Bersih'],
+    datasets: [{
+      label: 'Jumlah',
+      data: [4],
+      backgroundColor: ['#4db6ac']
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: {
+      title: {
+        display: true,
+        text: 'Prasarana Air Bersih'
+      },
+      legend: { display: false }
+    },
+    scales: {
+      x: { beginAtZero: true, ticks: { stepSize: 1 } }
+    }
+  }
+});
+
+new Chart(document.getElementById('sanitasiChart'), {
+  type: 'bar',
+  data: {
+    labels: ['MCK Umum', 'Jamban Keluarga', 'Saluran Drainase (m)', 'Saluran Irigasi (m)'],
+    datasets: [{
+      label: 'Jumlah / Panjang',
+      data: [2, 204, 100, 270],
+      backgroundColor: ['#f06292', '#7986cb', '#4fc3f7', '#aed581']
+    }]
+  },
+  options: {
+    indexAxis: 'y',
+    plugins: {
+      title: {
+        display: true,
+        text: 'Prasarana Sanitasi dan Irigasi'
+      },
+      legend: { display: false }
+    },
+    scales: {
+      x: { beginAtZero: true, ticks: { stepSize: 50 } }
+    }
+  }
+});
+
+</script>
+
+</body>
+</html> 
